@@ -6,15 +6,32 @@ using UnityEngine;
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
+    [SerializeField] int poolSize = 5;
     [SerializeField] float spawnTimer = 1.0f;
 
-    // Start is called before the first frame update
+    GameObject[] pool;
+
+    private void Awake()
+    {
+        PopulatePool();
+    }
+
     void Start()
     {
         StartCoroutine(SpawnEnemy());
     }
 
-    // Update is called once per frame
+    private void PopulatePool()
+    {
+        pool = new GameObject[poolSize];
+
+        for(int i = 0; i < pool.Length; i++)
+        {
+            pool[i] = Instantiate(enemyPrefab, transform);
+            pool[i].SetActive(false);
+        }
+    }
+
     void Update()
     {
         
@@ -24,8 +41,20 @@ public class ObjectPool : MonoBehaviour
     {
         while(true)
         {
-            Instantiate(enemyPrefab, transform);
+            EnableObjectInPool();
             yield return new WaitForSeconds(spawnTimer);
+        }
+    }
+
+    private void EnableObjectInPool()
+    {
+        for(int i = 0; i < pool.Length; i++)
+        {
+            if (!pool[i].gameObject.activeInHierarchy)
+            {
+                pool[i].gameObject.SetActive(true);
+                return;
+            }
         }
     }
 }
