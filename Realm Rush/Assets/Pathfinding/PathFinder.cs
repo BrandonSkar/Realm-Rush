@@ -12,8 +12,8 @@ public class PathFinder : MonoBehaviour
     Node destinationNode;
     Node currentSearchNode;
 
-    Dictionary<Vector2Int, Node> reached = new Dictionary<Vector2Int, Node>();
     Queue<Node> frontier = new Queue<Node>();
+    Dictionary<Vector2Int, Node> reached = new Dictionary<Vector2Int, Node>();
 
     Vector2Int[] directions = { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
     GridManager gridManager;
@@ -40,6 +40,7 @@ public class PathFinder : MonoBehaviour
     private void ExploreNeighbors()
     {
         List<Node> neighbors = new List<Node>();
+
         foreach(Vector2Int direction in directions)
         {
             Vector2Int neighborCoords = currentSearchNode.coordinates + direction;
